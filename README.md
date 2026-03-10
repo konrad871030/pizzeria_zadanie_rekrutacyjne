@@ -13,6 +13,11 @@ Aplikacja realizuje zadanie rekrutacyjne:
 - Nginx
 - Bootstrap (CDN)
 
+## Wymagania wstępne
+
+- Docker Desktop (z Docker Compose)
+- Wolne porty: `8080` (HTTP) oraz `3307` (MySQL)
+
 ## Uruchomienie
 
 1. Uruchom kontenery:
@@ -21,11 +26,19 @@ Aplikacja realizuje zadanie rekrutacyjne:
 docker compose up -d --build
 ```
 
-Jeśli Docker Desktop ma mało zasobów lub build przerywa się błędami warstwy, użyj trybu sekwencyjnego:
+Jeśli Docker Desktop ma mało zasobów lub build przerywa się błędami warstwy, użyj trybu sekwencyjnego.
+
+PowerShell (Windows):
 
 ```bash
 $env:COMPOSE_PARALLEL_LIMIT=1
 docker compose up -d --build
+```
+
+bash (Linux/macOS/WSL):
+
+```bash
+COMPOSE_PARALLEL_LIMIT=1 docker compose up -d --build
 ```
 
 2. Wykonaj migrację:
@@ -59,7 +72,7 @@ docker compose exec app php bin/console app:fixtures:menu
 - Próg: `QUEUE_ALERT_THRESHOLD` (domyślnie `5`).
 - Gdy `pending >= threshold`, zapisywany jest warning do:
   - `var/log/app.log` (aplikacja),
-  - `var/log/worker.log` (wyjście cron/workera).
+  - `var/log/worker.log` (wyjście workera).
 
 ## Przydatne komendy
 
