@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/order.css">
+{% endblock %}
+
+{% block body %}
+<main class="container py-4">
+    <h1 class="mb-4">Pizzeria QueueMaster</h1>
+
+    {% for type, messages in flashMessages %}
+        {% set bootstrapClass = type == 'error' ? 'danger' : 'success' %}
+        {% for message in messages %}
+            <div class="alert alert-{{ bootstrapClass }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+
+    <section class="card mb-4">
+        <div class="card-body">
+            <h2 class="h5">Status kolejki</h2>
+            <p class="mb-1">Zamówienia oczekujące: <strong id="pending-count">{{ stats.pendingCount }}</strong></p>
+            <p class="mb-0">Przewidywany czas dostawy: <strong id="eta-minutes">{{ stats.etaMinutes }} min</strong></p>
+        </div>
+    </section>
+
+    <section class="card mb-4">
+        <div class="card-body">
+            <h2 class="h5">Menu</h2>
+            <div class="row g-3 row-cols-1 row-cols-lg-3">
+                {% for menuCard in menuCards %}
+                    <div class="col">
+                        {% include 'order/_menu_item_card.html.twig' with { menuCard: menuCard } %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
+{% include 'order/_order_form.html.twig' with { menuItems: menuItems } %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/queue-status.js"></script>
+{% endblock %}

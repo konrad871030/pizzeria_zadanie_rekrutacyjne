@@ -1,0 +1,6 @@
+.menu-item-image {
+    height: 220px;
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 0.5rem;
+}

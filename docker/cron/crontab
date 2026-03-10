@@ -1,0 +1,4 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+*/10 * * * * root cd /var/www/html && php bin/console app:process-next-order >> /var/www/html/var/log/worker.log 2>&1

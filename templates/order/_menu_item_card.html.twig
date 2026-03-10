@@ -1,0 +1,23 @@
+<article class="card h-100 shadow-sm">
+    <img
+        src="{{ menuCard.image }}"
+        class="card-img-top menu-item-image"
+        alt="{{ menuCard.item.name }}"
+    >
+    <div class="card-body d-flex flex-column">
+        <h3 class="h5 card-title mb-2">{{ menuCard.item.name }}</h3>
+        <p class="card-text text-muted small mb-3">{{ menuCard.ingredients }}</p>
+        <p class="fw-semibold mb-3 mt-auto">{{ (menuCard.item.priceCents / 100)|number_format(2, '.', '') }} PLN</p>
+        <button
+            type="button"
+            class="btn btn-outline-primary w-100"
+            data-open-order-offcanvas="true"
+            data-menu-item-id="{{ menuCard.item.id }}"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#order-offcanvas"
+            aria-controls="order-offcanvas"
+        >
+            Zamów
+        </button>
+    </div>
+</article>

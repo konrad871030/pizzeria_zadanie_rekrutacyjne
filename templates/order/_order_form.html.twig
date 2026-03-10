@@ -1,0 +1,39 @@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="order-offcanvas" aria-labelledby="order-offcanvas-label">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5 mb-0" id="order-offcanvas-label">Nowe zamówienie</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Zamknij"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form method="post" action="/order">
+            <div class="mb-3">
+                <label for="menu_item_id" class="form-label">Rodzaj pizzy</label>
+                <select class="form-select" id="menu_item_id" name="menu_item_id" required>
+                    {% for item in menuItems %}
+                        <option value="{{ item.id }}" data-price-cents="{{ item.priceCents }}">
+                            {{ item.name }} - {{ (item.priceCents / 100)|number_format(2, '.', '') }} PLN
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Ilość</label>
+                <input type="number" min="1" class="form-control" id="quantity" name="quantity" value="1" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Adres e-mail</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="delivery_address" class="form-label">Adres dostawy</label>
+                <input type="text" class="form-control" id="delivery_address" name="delivery_address" required>
+            </div>
+            <div class="mb-3 p-3 rounded bg-light border">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="text-muted">Do zapłaty:</span>
+                    <strong id="order-total-amount">0.00 PLN</strong>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Złóż zamówienie</button>
+        </form>
+    </div>
+</div>
