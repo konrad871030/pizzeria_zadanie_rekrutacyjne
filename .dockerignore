@@ -1,0 +1,10 @@
+.git
+.gitignore
+vendor
+var
+tests
+README.md
+*.plan.md
+agent-transcripts
+mcps
+terminals
