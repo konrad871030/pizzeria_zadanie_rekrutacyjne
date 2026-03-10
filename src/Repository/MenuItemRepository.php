@@ -16,18 +16,28 @@ final class MenuItemRepository
      */
     public function findAll(): array
     {
-        $stmt = $this->connectionFactory->getConnection()->query('SELECT id, name, price_cents FROM menu_items ORDER BY id ASC');
+        $stmt = $this->connectionFactory->getConnection()->query(
+            'SELECT id, name, price_cents, ingredients, image_name FROM menu_items ORDER BY id ASC'
+        );
         $rows = $stmt->fetchAll();
 
         return array_map(
-            static fn (array $row): MenuItem => new MenuItem((int) $row['id'], (string) $row['name'], (int) $row['price_cents']),
+            static fn (array $row): MenuItem => new MenuItem(
+                (int) $row['id'],
+                (string) $row['name'],
+                (int) $row['price_cents'],
+                (string) $row['ingredients'],
+                (string) $row['image_name']
+            ),
             $rows
         );
     }
 
     public function findById(int $id): ?MenuItem
     {
-        $stmt = $this->connectionFactory->getConnection()->prepare('SELECT id, name, price_cents FROM menu_items WHERE id = :id');
+        $stmt = $this->connectionFactory->getConnection()->prepare(
+            'SELECT id, name, price_cents, ingredients, image_name FROM menu_items WHERE id = :id'
+        );
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch();
 
@@ -35,11 +45,17 @@ final class MenuItemRepository
             return null;
         }
 
-        return new MenuItem((int) $row['id'], (string) $row['name'], (int) $row['price_cents']);
+        return new MenuItem(
+            (int) $row['id'],
+            (string) $row['name'],
+            (int) $row['price_cents'],
+            (string) $row['ingredients'],
+            (string) $row['image_name']
+        );
     }
 
     /**
-     * @param array<array{name: string, price_cents: int}> $items
+     * @param array<array{name: string, price_cents: int, ingredients: string, image_name: string}> $items
      */
     public function replaceAll(array $items): void
     {
@@ -51,11 +67,15 @@ final class MenuItemRepository
             $pdo->exec('DELETE FROM orders');
             $pdo->exec('DELETE FROM menu_items');
 
-            $stmt = $pdo->prepare('INSERT INTO menu_items (name, price_cents) VALUES (:name, :price_cents)');
+            $stmt = $pdo->prepare(
+                'INSERT INTO menu_items (name, price_cents, ingredients, image_name) VALUES (:name, :price_cents, :ingredients, :image_name)'
+            );
             foreach ($items as $item) {
                 $stmt->execute([
                     'name' => $item['name'],
                     'price_cents' => $item['price_cents'],
+                    'ingredients' => $item['ingredients'],
+                    'image_name' => $item['image_name'],
                 ]);
             }
 

@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS menu_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(120) NOT NULL,
-    price_cents INT NOT NULL
+    price_cents INT NOT NULL,
+    ingredients VARCHAR(500) NOT NULL DEFAULT '',
+    image_name VARCHAR(255) NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS orders (
